@@ -20,3 +20,7 @@ app.get('/', (req, res) => {
 app.get('/notes', (req, resp) => {
     res.sendFile(path.join(_dirname, 'Develop/public/notes.html'))
 });
+
+function notes() {
+    return readIt('db/db.json').then(newNotes => [].concat(JSON.parse(newNotes)));
+}
