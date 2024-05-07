@@ -21,6 +21,26 @@ app.get('/notes', (req, resp) => {
     res.sendFile(path.join(_dirname, 'Develop/public/notes.html'))
 });
 
-function notes() {
+function findNotes() {
     return readIt('db/db.json').then(newNotes => [].concat(JSON.parse(newNotes)));
 }
+
+app.get('/api/notes', (req, res) => {
+    findNotes().then(notes => res.json(notes))
+});
+
+app.POST('/api/notes', (req, res) => {
+    findNotes().then(oldNotes => {
+        console.log(oldNotes)
+        let noteInfo = {
+            title: req.body.title,
+            text: req.body.text,
+            id: req.body.id
+        }
+
+        let newNotesArray = [...oldNotes, noteInfo]
+        writeIt('db/db.json', JSON.stringify(newNotesArray)).then(() => res.json({
+            alert: 'Note added successfully!'
+        }))
+    })
+});
