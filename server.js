@@ -7,7 +7,7 @@ let express = require('express');
 let path = require('path');
 let fs = require('fs');
 let util = require('util');
-let { v4: uuid$ } = require('uuid');
+let { v4: uuid4 } = require('uuid');
 
 let PORT = process.env.PORT || 3001
 
@@ -25,7 +25,7 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(_dirname, 'Develop/public/index.html'))
 });
 
-app.get('/notes', (req, resp) => {
+app.get('/notes', (req, res) => {
     res.sendFile(path.join(_dirname, 'Develop/public/notes.html'))
 });
 
@@ -48,7 +48,7 @@ app.POST('/api/notes', (req, res) => {
         let noteInfo = {
             title: req.body.title,
             text: req.body.text,
-            id: req.body.id
+            id: req.body.uuid4
         }
 
         let newNotesArray = [...oldNotes, noteInfo]
